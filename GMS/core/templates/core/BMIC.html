@@ -1,0 +1,302 @@
+{% extends 'core/base.html' %}
+{% block title %}BMI {% endblock title %}
+ 
+
+{% block body%}
+{%load static %}
+
+<body>
+  <head>
+    <!-- Required meta tags -->
+    
+    <!--bokeh-->
+      <link rel="stylesheet" type="text/css" href="http://cdn.pydata.org/bokeh/release/bokeh-2.1.1.min.css"/>
+      <link rel="stylesheet" type="text/css" href="http://cdn.pydata.org/bokeh/release/bokeh-widgets-2.1.1.min.css"/>
+      <link rel="stylesheet" type="text/css" href="http://cdn.pydata.org/bokeh/release/bokeh-tables-2.1.1.min.css"/>
+  
+    <!-- Bootstrap CSS -->
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <!--bmi style-->
+    <link rel="stylesheet" href="{% static "core/css/style.css" %}">
+    <title>Bmi Calculator</title>
+<div class="container">
+  <div class="form-row">
+    <!-#########################Col1###############-->
+    <div class="col-md-6 col-sm-12 col-xs-12">
+      <div class="tab-bmi">
+        <h3 style="text-shadow: 2px 2px 5px blue;font-weight: bold;color: white;">Bmi Calculator</h3>
+        <div class="tab">
+          <button style="font-weight: bold;"  class="tablinks" onclick="openUnit(event, 'metric')">Metric</button>
+          <button  style="font-weight: bold;" class="tablinks" onclick="openUnit(event, 'imperial')">Imperial</button>
+        </div>
+
+        <div class="tabcontent" id="metric">
+           <form method="post">
+             {% csrf_token %}
+             <div class="col-12">
+              <h4> <label style="text-shadow: 2px 2px 5px blue;font-weight: bold;color: white;" for="">Gender: </label></h4>
+               <input type="text" name="gender-metric" class="form-control" required placeholder="Male or Female">
+             </div>
+             <div class="col-12">
+              <h4> <label style="text-shadow: 2px 2px 5px blue;font-weight: bold;color: white;" for="">Age: </label></h4>
+               <input type="text" name="age-metric" class="form-control" required placeholder="Enter ur age">
+             </div>
+             <div class="col-12">
+              <h4> <label style="text-shadow: 2px 2px 5px blue;font-weight: bold;color: white;" for="">Weight: </label></h4>
+               <input type="text" name="weight-metric" class="form-control" required placeholder="kg">
+             </div>
+
+             <div class="col-12">
+              <h4> <label style="text-shadow: 2px 2px 5px blue;font-weight: bold;color: white;"for="">Height: </label></h4>
+               <input type="text" name="height-metric" class="form-control" required placeholder="m">
+             </div>
+             {% if request.user.is_authenticated %}
+             <div class="form-check my-5">
+               <input class="form-check-input" checked="checked" name="save" value="on" type="checkbox">
+              <h4> <label style="text-shadow: 2px 2px 5px blue;font-weight: bold;color: white;"for="" class="form-check-label">Save It.
+                 <a href="#"style="text-shadow: 2px 2px 5px blue;font-weight: bold;color: white;" title="Why to save it?" data-toggle="popover" data-trigger="focus"
+         data-content="In case you want to track your weight, you can save it.(login required)">?</a>
+       </label></h4>
+             </div>
+             {% else %}
+             <div class="form-check my-5">
+               <input disabled class="form-check-input" checked="checked" name="save" value="on" type="checkbox">
+               <label for="" class="form-check-label">Save It.
+                 <a href="#"style="text-shadow: 2px 2px 5px blue;font-weight: bold;color: white;" title="Why to save it?" data-toggle="popover" data-trigger="focus"
+         data-content="In case you want to track your weight, you can save it.(login required)">?</a>
+       </label>
+             </div>
+             {% endif %}
+
+             <button type="submit" class="btn btn-primary" style="text-shadow: 2px 2px 5px blue;font-weight: bold;color: white;" action="#">Calculate</button>
+
+           </form>
+        </div>
+ 
+        <div class="tabcontent" id="imperial">
+          <form method="post">
+            {% csrf_token %}
+            <div class="col-12">
+              <h4><label style="text-shadow: 2px 2px 5px blue;font-weight: bold;color: white;" for="">Gender: </label></h4>
+              <input type="text" name="gender-imperial" class="form-control" required placeholder="Male or Female">
+            </div>
+            <div class="col-12">
+              <h4><label style="text-shadow: 2px 2px 5px blue;font-weight: bold;color: white;" for="">Age:</label></h4>
+              <input type="text" name="age-imperial" class="form-control" required placeholder="Enter ur age">
+            </div>
+            <div class="col-12">
+              <h4><label style="text-shadow: 2px 2px 5px blue;font-weight: bold;color: white;" for="">Weight: </label></h4>
+              <input type="text" name="weight-imperial" class="form-control" required placeholder="lbs">
+            </div>
+
+            <div class="col-12">
+             <h4> <label style="text-shadow: 2px 2px 5px blue;font-weight: bold;color: white;"for="">Height: </label></h4>
+              <div class="input-group">
+                <input type="text" name="feet" placeholder="feet" class="form-control">
+                <input type="text" name="inches" placeholder="inches" class="form-control">
+              </div>
+            </div>
+
+            {% if request.user.is_authenticated %}
+            <div class="form-check my-5">
+              <input class="form-check-input" checked="checked" name="save" value="on" type="checkbox">
+            <h4>  <label for=""style="text-shadow: 2px 2px 5px blue;font-weight: bold;color: white;" class="form-check-label">Save It.
+                <a href="#"style="text-shadow: 2px 2px 5px blue;font-weight: bold;color: white;" title="Why to save it?" data-toggle="popover" data-trigger="focus"
+        data-content="In case you want to track your weight, you can save it.(login required)">?</a>
+      </label></h4>
+            </div>
+            {% else %}
+            <div class="form-check my-5">
+              <input disabled class="form-check-input" checked="checked" name="save" value="on" type="checkbox">
+             <h4> <label for="" style="text-shadow: 2px 2px 5px blue;font-weight: bold;color: white;"class="form-check-label">Save It.
+                <a href="#"style="text-shadow: 2px 2px 5px blue;font-weight: bold;color: white;" title="Why to save it?" data-toggle="popover" data-trigger="focus"
+        data-content="In case you want to track your weight, you can save it.(login required)">?</a>
+      </label></h4>
+            </div>
+            {% endif %}
+
+
+
+            <button type="submit"style="text-shadow: 2px 2px 5px blue;font-weight: bold;color: white;" class="btn btn-primary" action="#">Calculate</button>
+
+          </form>
+        </div>
+
+
+      </div>
+
+
+    <!-#########################Col2###############-->
+
+
+    </div>
+
+   
+
+      {% if bmi %}
+    <div class="col-md-6 col-sm-12 col-xs-12">
+      <h2 style="text-shadow: 2px 2px 5px blue;font-weight: bold;color: white;">Result</h2>
+      <h5><p style="text-shadow: 2px 2px 5px blue;font-weight: bold;color: white;">Your BMI = {{bmi}} kg/m² | {{state}}</p></h5>
+      <div class="progress">
+        <div class="progress-bar bg-danger" style="width:25%">
+          Underweight
+        </div>
+        <div class="progress-bar bg-success" style="width:25%">
+          Normal
+        </div>
+        <div class="progress-bar bg-warning" style="width:25%">
+          Overweight
+        </div>
+        <div class="progress-bar bg-danger" style="width:25%">
+          Obesity
+        </div>
+      </div>
+
+      
+      
+      {% if  bmi < 16%}
+  <button type="submit"style="position: fixed;
+      margin-top: 40px;
+      border-radius: 12px;
+    right: 100px;
+    width: 300px;
+    border:  1px solid white;
+  text-shadow: 2px 2px 5px blue;font-weight: bold;color: white;" class="btn btn-primary" onclick="myFunction1()" action="/norml">Calculate</button>
+  {% elif  bmi > 16 and bmi < 17%} 
+      <button type="submit"style="position: fixed;
+      margin-top: 40px;
+      border-radius: 12px;
+    right: 100px;
+    width: 300px;
+    border:  1px solid white;
+  text-shadow: 2px 2px 5px blue;font-weight: bold;color: white;" class="btn btn-primary" onclick="myFunction2()" action="/norml">Calculate</button>
+  {% elif bmi > 17 and bmi < 18} 
+  <button type="submit"style="position: fixed;
+  margin-top: 40px;
+  border-radius: 12px;
+right: 100px;
+width: 300px;
+border:  1px solid white;
+text-shadow: 2px 2px 5px blue;font-weight: bold;color: white;" class="btn btn-primary" onclick="myFunction3()" action="/norml">Calculate</button>
+{% elif  bmi > 18 and bmi < 25 %} 
+
+      <button type="submit"style="position: fixed;
+      margin-top: 40px;
+      border-radius: 12px;
+    right: 100px;
+    width: 300px;
+    border:  1px solid white;
+  text-shadow: 2px 2px 5px blue;font-weight: bold;color: white;" class="btn btn-primary" onclick="myFunction4()" action="/norml">Calculate</button>
+  {% elif bmi > 25 and bmi < 30 %} 
+
+  <button type="submit"style="position: fixed;
+  margin-top: 40px;
+  border-radius: 12px;
+right: 100px;
+width: 300px;
+border:  1px solid white;
+text-shadow: 2px 2px 5px blue;font-weight: bold;color: white;" class="btn btn-primary" onclick="myFunction5()" action="/norml">Calculate</button>
+
+  {% elif  bmi > 30 and bmi < 35 %} 
+  <button type="submit"style="position: fixed;
+  margin-top: 40px;
+  border-radius: 12px;
+right: 100px;
+width: 300px;
+border:  1px solid white;
+text-shadow: 2px 2px 5px blue;font-weight: bold;color: white;" class="btn btn-primary" onclick="myFunction6()" action="/norml">Calculate</button>
+
+      {% elif  bmi > 35 and bmi < 40 %} 
+      <button type="submit"style="position: fixed;
+      margin-top: 40px;
+      border-radius: 12px;
+    right: 100px;
+    width: 300px;
+    border:  1px solid white;
+  text-shadow: 2px 2px 5px blue;font-weight: bold;color: white;" class="btn btn-primary" onclick="myFunction7()" action="/norml">Calculate</button>
+  {% elif bmi > 40 %}
+  <button type="submit"style="position: fixed;
+      margin-top: 40px;
+      border-radius: 12px;
+    right: 100px;
+    width: 300px;
+    border:  1px solid white;
+  text-shadow: 2px 2px 5px blue;font-weight: bold;color: white;" class="btn btn-primary" onclick="myFunction8()" action="/norml">Calculate</button>
+  {% else %}
+  <p>nothing</p> 
+  {% endif %}
+    </div>
+    
+  {% endif %}
+  </div>
+
+  {{div|safe}}
+  
+</div>
+
+<script type="text/javascript" src="http://cdn.pydata.org/bokeh/release/bokeh-2.1.1.min.js"></script>
+<script type="text/javascript" src="http://cdn.pydata.org/bokeh/release/bokeh-widgets-2.1.1.min.js"></script>
+<script type="text/javascript" src="http://cdn.pydata.org/bokeh/release/bokeh-tables-2.1.1.min.js"></script>
+<script type="text/javascript" src="http://cdn.pydata.org/bokeh/release/bokeh-api-2.1.1.min.js"></script>
+
+{{script|safe}}
+
+<!--custom scripts-->
+<script type="text/javascript" src="{% static "core/css/custom.js" %}">
+
+</script>
+<!-- Optional JavaScript -->
+<!-- jQuery first, then Popper.js, then Bootstrap JS -->
+<script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+
+<script type="text/javascript">
+$(document).ready(function(){
+$('[data-toggle="popover"]').popover();
+});
+</script>
+<script>
+  function myFunction4() {
+    location.replace("/normal")
+  }
+  </script>
+  <script>
+    function myFunction1() {
+      location.replace("/severeThinness")
+    }
+    </script>
+    <script>
+      function myFunction2() {
+        location.replace("/ModerateThinness")
+      }
+      </script>
+      <script>
+        function myFunction3() {
+          location.replace("/MildThinness")
+        }
+        </script>
+        <script>
+          function myFunction5() {
+            location.replace("/Overweight")
+          }
+          </script>
+          <script>
+            function myFunction6() {
+              location.replace("/obeseclassI")
+            }
+            </script>
+            <script>
+              function myFunction7() {
+                location.replace("/obeseclassII")
+              }
+              </script>
+              <script>
+                function myFunction8() {
+                  location.replace("/obeseclassIII")
+                }
+                </script>
+                
+{%endblock body %}
+

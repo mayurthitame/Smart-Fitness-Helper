@@ -1,0 +1,57 @@
+
+
+
+{% extends 'core/base.html' %}
+{% block body %}
+
+    <h3 class="text-center text-primary font-weight-bold">Add Member</h3>
+    <form action="" method="POST">
+        {% csrf_token %}
+        
+        <label for=" traineri"><b>Your user  Name</b></label>
+        <input type="text" id=" traineri" name=" traineri" class="form-control" >
+        
+        <label for=" customeri"><b>contact</b></label>
+        <input type="tel"id=" customeri" name=" customeri" class="form-control">
+       
+        
+        <input  type="submit" value="Submit" class="btn btn-primary">
+    </form>
+    <br>
+
+{% ifequal error "no" %}
+<script>
+    alert('Record Inserted Successfully');
+    window.location=("#")
+</script>
+{% endifequal %}
+{% ifequal error "yes" %}
+<script>
+    alert('Something went wrong, Try Again');
+</script>
+{% endifequal %}
+
+
+{% endblock%}
+
+{% block footer %}
+<footer id="footer" class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                <p class="text-white">Smartfitness@2022 | Smart Fitness</p>
+            </div>
+            <div class="col-sm-6">
+                <ul class="social-icons">
+                    <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                    <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                    <li><a  href="#"><i class="fa fa-linkedin"></i></a></li>
+                    <li><a href="#"><i class="fa fa-youtube"></i></a></li>
+                    <li><a href="#"><i class="fa fa-github"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+{% endblock%}

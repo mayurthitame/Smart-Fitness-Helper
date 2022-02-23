@@ -1,0 +1,17 @@
+body{
+    text-align: center;
+    font-size: 20px;
+    background-color:burlywood;
+}
+*{
+    font-family: 'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif    ;
+ 
+}
+table{
+    border: 12px;
+    color: blue ;
+    line-height: normal;
+}
+li{
+    list-style-type: square;
+}

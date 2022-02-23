@@ -1,0 +1,39 @@
+{% extends 'core/base.html' %} 
+{% block title %} Trainer sign-up {% endblock title %}
+
+
+{% block body %}
+
+<div class="container">
+    <div class="row justify-content-around mt-5">
+        <div class="col-sm-4 text-block">
+        <h4>Sign Up</h4>
+        </div>
+    </div>
+<div class="row justify-content-around">
+    <div class="col-sm-4">
+        {% if messages %}
+        {%for message in messages%}
+        <div class="alert alert-warning alert-dismissible fade show" role="alert">
+            <strong>{{message}}</strong> 
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+          </div>
+        {%endfor%}
+        {%endif%}
+        <form action="" method="POST" class="br-white rounded shadow p-2">
+
+            {% csrf_token %}
+            {%for fm in  form%}
+            {{fm.label_tag}}
+            {{fm}}
+            {{fm.errors}}
+            {%endfor%}
+            <input type="submit" value="Sign Up" class="btn btn-primary">
+        </form>
+
+</div>
+</div>
+</div>
+
+
+{%endblock body %} 

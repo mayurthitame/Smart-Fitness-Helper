@@ -1,0 +1,83 @@
+{% extends 'core/base.html' %}
+{% block body %}
+{% if messages %}
+{%for message in messages%}
+<div class="alert alert-warning alert-dismissible fade show" role="alert">
+    <strong>{{message}}</strong> 
+    <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+  </div>
+{%endfor%}
+{%endif%}
+<div class="container" style="margin-top: 60px;">
+    <h3 class="text-center text-primary font-weight-bold">My plan</h3>
+    <table id="example" class="table table-hover display">
+        <thead>
+            <tr>
+                {% comment %} <th>User Name</th> {% endcomment %}
+                <th>Amount</th>
+                <th>Duration</th>
+                <th>view ur plan</th>
+                {% comment %} <th>Gender</th>
+                <th>Weight</th> 
+                <th>Decline</th>
+                <th>Accept</th> {% endcomment %}
+                
+            </tr>
+        </thead>
+        <tbody>
+          
+               
+            {% for i in member %}
+            
+            <tr>
+                {% comment %} <td>{{i.name1}}</td> {% endcomment %}
+                <td>{{i.amount}}</td>
+                <td>{{i.duration}}</td>
+                <td ><a class="btn btn"  href="viewplan/" onclick="return confirm('Are You Sure?')">{{i.planN}}</a></td>
+               
+           
+                <td><a type="button" href="sendplanadmin/"> Apply</a></td>
+                
+                {% comment %} <td>{{i.gender}}</td>
+                <td>{{i.weight}}</td>
+                 {% endcomment %}
+                {% comment %} <td><a class="btn btn-danger" href="{% url 'delete_member' i.id %}" onclick="return confirm('Are You Sure?')">Decline</a></td>
+                <td><a class="btn btn" style="background-color:#008CBA;;"href="{% url 'Accept_member' i.id %}" onclick="return confirm('Are You Sure?')">Accept</a></td> {% endcomment %}
+             </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+
+{% endblock %}
+{% block css %}
+.footer {
+position: fixed;
+left: 0;
+bottom: 0;
+width: 100%;
+color: white;
+text-align: center;
+}
+{% endblock %}
+{% block footer %}
+<footer id="footer" class="footer">
+    <div class="container">
+        <div class="row">
+            <div class="col-sm-6">
+                <p class="text-white">Smartfitness@2022 | Smart Fitness</p>
+            </div>
+            <div class="col-sm-6">
+                <ul class="social-icons">
+                    <li><a href="#"><i class="fa fa-facebook"></i></a></li>
+                    <li><a href="#"><i class="fa fa-twitter"></i></a></li>
+                    <li><a href="#"><i class="fa fa-google-plus"></i></a></li>
+                    <li><a  href="#"><i class="fa fa-linkedin"></i></a></li>
+                    <li><a href="#"><i class="fa fa-youtube"></i></a></li>
+                    <li><a href="#"><i class="fa fa-github"></i></a></li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</footer>
+{% endblock%}
